@@ -2,9 +2,7 @@
   <v-app app>
     <appbar></appbar>
     <main>
-      <v-container fluid>
-        <router-view />
-      </v-container>
+      <router-view />
     </main>
   </v-app>
 </template>
