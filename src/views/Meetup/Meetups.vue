@@ -1,28 +1,28 @@
 <template>
     <v-container>
       <v-row>
-        <v-col v-for="i in n"
-          :key="i"
+        <v-col v-for="(meetup, index) in meetups"
+          :key="index"
           cols="12"
           md="4"
+          :meetup="meetup"
         >
-          <single-meetup></single-meetup>
+          <single-meetup :meetup="meetup"></single-meetup>
         </v-col>
       </v-row>
     </v-container>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import SingleMeetup from '../../components/SingleMeetup.vue';
 
 export default {
   components: {
     SingleMeetup,
   },
-  data() {
-    return {
-      n: 4,
-    };
+  computed: {
+    ...mapState('meetups', ['meetups']),
   },
 };
 </script>

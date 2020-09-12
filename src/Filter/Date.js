@@ -1,0 +1,10 @@
+/* eslint-disable */
+export default (date) => {
+  return new Date(date).toLocaleString([], {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
