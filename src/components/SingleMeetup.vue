@@ -15,6 +15,7 @@
       <v-btn
         color="red darken-1"
         text
+        @click="() => $router.push(`/meetups/${meetup.id}`)"
       >
         View Meetup
       </v-btn>

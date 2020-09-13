@@ -14,9 +14,9 @@
       <v-col>
         <v-carousel style="cursor: pointer;">
           <v-carousel-item
-            v-for="(item,i) in items"
-            :key="i"
-            :src="item.src"
+            v-for="meetup in meetups"
+            :key="meetup.id"
+            :src="meetup.imageURL"
             reverse-transition="fade-transition"
             transition="fade-transition"
             @click.native="loadMeetup"
@@ -26,7 +26,7 @@
             align="center"
             justify="center"
           >
-            <div class="display-3 title">The DEveloper Meetup</div>
+            <div class="display-3 title">{{ meetup.title }}</div>
           </v-row>
           </v-carousel-item>
         </v-carousel>
@@ -44,15 +44,16 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 
 export default {
   name: 'Home',
   data() {
     return {
-      items: [
-        { src: 'https://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg' },
-      ],
     };
+  },
+  computed: {
+    ...mapState('meetups', ['meetups']),
   },
   methods: {
     loadMeetup() {

@@ -8,11 +8,18 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import Appbar from './components/Appbar.vue';
 
 export default {
   components: {
     Appbar,
+  },
+  async created() {
+    await this.loadMeetups();
+  },
+  methods: {
+    ...mapActions('meetups', ['loadMeetups']),
   },
 };
 </script>

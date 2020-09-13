@@ -137,7 +137,7 @@ export default {
       this.time = time;
     },
     submitMeetup() {
-      this.meetup.date = this.submittableDate;
+      this.meetup.date = this.submittableDate.toISOString();
       this.addMeetup(this.meetup);
       this.$router.push('/meetups');
     },
