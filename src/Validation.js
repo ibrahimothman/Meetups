@@ -1,3 +1,5 @@
 const notEmpty = [(v) => !!v || 'Required'];
 
-export default notEmpty;
+export default {
+  notEmpty,
+};
