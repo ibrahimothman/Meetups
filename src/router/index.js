@@ -11,28 +11,25 @@ import Profile from '../views/User/Profile.vue';
 import store from '../store';
 
 Vue.use(VueRouter);
-const isAuth = (to, from, next) => {
-  const { user } = store.state.auth;
-  console.log(user);
-  if (user) {
-    next('/');
-  } else {
-    next();
-  }
-};
+// const isAuth = (to, from, next) => {
+//   const { user } = store.state.auth;
+//   if (user) {
+//     next('/');
+//   } else {
+//     next();
+//   }
+// };
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home,
-    meta: { requiresAuth: true },
   },
   {
     path: '/meetups',
     name: 'Meetups',
     component: Meetups,
-    meta: { requiresAuth: true },
   },
   {
     path: '/meetups/create',
@@ -44,7 +41,6 @@ const routes = [
     path: '/meetups/:id',
     name: 'Meetup',
     component: Meetup,
-    meta: { requiresAuth: true },
   },
   {
     path: '/profile',
@@ -56,13 +52,13 @@ const routes = [
     path: '/signin',
     name: 'SignIn',
     component: SignIn,
-    beforeEnter: isAuth,
+    // beforeEnter: isAuth,
   },
   {
     path: '/signup',
     name: 'SignUp',
     component: SignUp,
-    beforeEnter: isAuth,
+    // beforeEnter: isAuth,
   },
 ];
 

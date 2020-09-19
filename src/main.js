@@ -15,7 +15,8 @@ let app;
 firebase.auth().onAuthStateChanged(async (user) => {
   if (user) {
     // User is signed in.
-    store.commit('auth/setUser', { id: user.uid });
+    store.commit('auth/setUser', { id: user.uid, registeredMeetups: [] });
+    store.dispatch('register/loadRegisteredMeetups');
   } else {
     store.commit('auth/setUser', null);
     router.push('/signin');

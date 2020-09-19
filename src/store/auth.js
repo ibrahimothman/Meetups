@@ -16,6 +16,7 @@ const actions = {
       commit('setLoading', false);
       commit('setUser', {
         id: user.uid,
+        registeredMeetups: [],
       });
     } catch (error) {
       commit('setLoading', false);
@@ -31,6 +32,7 @@ const actions = {
       commit('setLoading', false);
       commit('setUser', {
         id: user.uid,
+        registeredMeetups: [],
       });
     } catch (error) {
       commit('setLoading', false);
@@ -38,9 +40,10 @@ const actions = {
     }
   },
 
-  async signOut() {
+  async signOut({ commit }) {
     try {
       await firebase.auth().signOut();
+      commit('setUser', null);
     } catch (error) {
       console.error(error);
     }

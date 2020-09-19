@@ -39,6 +39,7 @@ export default {
     ...mapState('auth', ['user']),
     displayNavbarItems() {
       let menuItems = [
+        { icon: 'mdi-account-multiple', title: 'View Meetups', link: '/meetups' },
         { icon: 'mdi-face-outline', title: 'Sign Up', link: '/signup' },
         { icon: 'mdi-lock-open-outline', title: 'Sign In', link: '/signin' },
       ];

@@ -15,7 +15,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import SingleMeetup from '../../components/SingleMeetup.vue';
+import SingleMeetup from '../../components/Meetups/SingleMeetup.vue';
 
 export default {
   components: {

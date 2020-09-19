@@ -19,7 +19,7 @@
             :src="meetup.imageURL"
             reverse-transition="fade-transition"
             transition="fade-transition"
-            @click.native="loadMeetup"
+            @click.native="$router.push(`/meetups/${meetup.id}`);"
           >
           <v-row
             class="fill-height"

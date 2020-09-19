@@ -1,10 +1,9 @@
 /* eslint-disable */
-import db from '../db';
-
-const meetups = db.ref('meetups');
+import firebase from '../firebase';
 
 const state = {
   meetups: [],
+  error: null,
 };
 
 const getters = {
@@ -17,7 +16,7 @@ const getters = {
 const actions = {
   async loadMeetups({ commit }) {
     try {
-      const data = await meetups.once('value');
+      const data = await firebase.database().ref('meetups').once('value');
       const loadedMeetups = [];
       data.forEach((child) => {
         loadedMeetups.push({
@@ -27,6 +26,7 @@ const actions = {
           location: child.val().location,
           imageURL: child.val().imageURL,
           date: child.val().date,
+          creatorId: child.val().creatorId,
         });
       });
       commit('setMeetups', loadedMeetups);
@@ -35,23 +35,61 @@ const actions = {
     }
   },
 
-  async addMeetup({ commit }, meetup) {
+  async addMeetup({ commit, rootState: { auth: { user } } }, payload) {
     try {
-      const { key } = await meetups.push(meetup);
-      const newMeetup = {
-        ...meetup,
+      commit('clearError');
+      // 1- create a new meetup in the database
+      payload.creatorId = user.id;
+      const { key } = await firebase.database().ref('meetups').push(payload);
+      // 2- upload image to firebase storage
+      const ext = payload.image.name.slice(payload.image.name.lastIndexOf('.'));
+      const { ref } = await firebase.storage().ref(`meetups/${key}${ext}`).put(payload.image);
+      const downloadURL = await ref.getDownloadURL();
+      // 3- Update image url of meetup
+      await firebase.database().ref('meetups').child(key).update({
+        imageURL: downloadURL,
+      });
+
+      // finally commit a mutation
+      const meetup = {
+        ...payload,
         id: key,
+        imageURL: downloadURL,
       };
-      commit('addMeetup', newMeetup);
+      commit('addMeetup', meetup);
     } catch (error) {
+      commit('setError', error);
       console.error(error);
     }
   },
+
+  async updateMeetup({ commit }, payload) {
+    try {
+      await firebase.database().ref('meetups').child(payload.id).update(payload);
+      commit('updateMeetups', payload);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };
 
 const mutations = {
   addMeetup: (state, meetup) => state.meetups.push(meetup),
   setMeetups: (state, meetups) => { state.meetups = meetups; },
+  updateMeetups: (state, payload) => {
+    state.meetups = state.meetups.map((meetup) => {
+      if (meetup.id === payload.id) {
+        return {
+          ...meetup,
+          ...payload,
+        };
+      }
+      return meetup;
+    });
+    console.log(state.meetups);
+  },
+  setError: (state, error) => { state.error = error; },
+  clearError: () => { state.error = null; },
 };
 
 export default {

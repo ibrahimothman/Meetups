@@ -5,7 +5,7 @@ const firebaseConfig = {
   authDomain: 'meetups-b0f8e.firebaseapp.com',
   databaseURL: 'https://meetups-b0f8e.firebaseio.com',
   projectId: 'meetups-b0f8e',
-  storageBucket: 'meetups-b0f8e.appspot.com',
+  storageBucket: 'gs://meetups-b0f8e.appspot.com',
   messagingSenderId: '106974835333',
   appId: '1:106974835333:web:7c3adf9929c0ad31762fe',
 };
